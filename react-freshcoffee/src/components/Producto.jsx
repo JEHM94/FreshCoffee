@@ -13,7 +13,7 @@ export default function Producto({ producto }) {
       <img
         src={`/img/${imagen}.jpg`}
         alt={`Imagen de ${nombre}`}
-        className="w-full rounded-md"
+        className="md:w-full w-60 m-auto rounded-md"
       />
 
       <div className="p-5">
