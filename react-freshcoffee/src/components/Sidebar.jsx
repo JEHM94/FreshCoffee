@@ -1,12 +1,65 @@
 import useQuiosco from '../hooks/useQuiosco'
 import Categoria from '../components/Categoria'
 
+import { slide as Menu } from 'react-burger-menu'
+
 export default function Sidebar() {
 
   const { categorias } = useQuiosco();
 
   return (
-    <aside className="md:w-72">
+    <>
+
+      <Menu className=''>
+        <div className="p-4">
+          <img src="img/logo.svg" alt="Imagen Logotipo" className="w-40 m-auto" />
+        </div>
+
+        <div className='mt-10'>
+          {categorias.map(categoria => (
+            <Categoria
+              key={categoria.id}
+              categoria={categoria}
+              isSidebar={true}
+            />
+          ))}
+        </div>
+
+        <div className='my-5 px-5'>
+          <button
+            type='button'
+            className='text-center bg-red-500 hover:bg-red-600 w-full p-3 font-bold text-white truncate rounded'
+          >
+            Cancelar Orden
+          </button>
+        </div>
+      </Menu>
+
+      <div className='pt-20 pl-1 bg-gray-100 hidden md:block'>
+        {categorias.map(categoria => (
+          <Categoria
+            key={categoria.id}
+            categoria={categoria}
+            isSidebar={false}
+          />
+        ))}
+
+        <div className='my-5 pl-1'>
+          <button
+            type='button'
+            title='Cancelar Orden'
+            className='flex justify-center bg-red-500 hover:bg-red-600 w-full p-3 font-bold text-white truncate rounded'
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+
+          </button>
+        </div>
+      </div>
+    </>
+
+    /* <aside className="md:w-72">
       <div className="p-4">
         <img src="img/logo.svg" alt="Imagen Logotipo" className="w-40 m-auto" />
       </div>
@@ -29,6 +82,6 @@ export default function Sidebar() {
         </button>
       </div>
 
-    </aside>
+    </aside> */
   )
 }

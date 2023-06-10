@@ -6,6 +6,8 @@ export default function Resumen() {
 
   const { pedido, total } = useQuiosco();
 
+  const comprobarPedido = () => pedido.length === 0;
+
   return (
     <aside className="md:w-72 h-screen overflow-y-scroll p-5 mt-5 md:mt-0">
       <h1 className="text-4xl font-black">
@@ -17,7 +19,7 @@ export default function Resumen() {
       </p>
 
       <div className="h-5/6 md:flex md:flex-col md:justify-between">
-        <div className=" overflow-y-scroll">
+        <div className=" overflow-y-scroll  max-h-96 md:max-h-none">
           {pedido.length === 0 ? (
             <p className="my-7 text-center text-2xl text-gray-600">
               No hay elementos en tu pedido aún.
@@ -40,11 +42,16 @@ export default function Resumen() {
           </p>
 
           <form className="w-full">
-            <div className="mt-5">
+            <div className="my-5">
               <input
                 type="submit"
                 value="Confirmar Pedido"
-                className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer"
+                disabled={comprobarPedido()}
+                className={`
+                ${comprobarPedido() ?
+                    'bg-indigo-100 cursor-not-allowed' :
+                    'bg-indigo-600 hover:bg-indigo-700 cursor-pointer'}
+                 px-5 py-2 rounded uppercase font-bold text-white text-center w-full`}
               />
             </div>
           </form>

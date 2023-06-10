@@ -13,7 +13,7 @@ export default function Producto({ producto }) {
       <img
         src={`/img/${imagen}.jpg`}
         alt={`Imagen de ${nombre}`}
-        className="md:w-full w-60 m-auto rounded-md"
+        className="w-full m-auto rounded-md"
       />
 
       <div className="p-5">
@@ -31,7 +31,7 @@ export default function Producto({ producto }) {
             handleClickModal()
             handleSetProducto(producto)
            }}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white w-full mt-5 p-3 uppercase font-bold"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white w-full mt-5 p-3 uppercase font-bold rounded"
         >Agregar
         </button>
       </div>

@@ -10,14 +10,15 @@ export default function Inicio() {
 
   return (
     <>
-      <h1 className="text-4xl font-black">
-        {categoriaActual.nombre}
-      </h1>
-      <p className="text-2xl my-10 text-gray-600">
+        <h1 className="text-4xl font-black text text-amber-500 pt-24 md:pt-0 italic text-center md:text-left md:pl-4">
+          {categoriaActual.nombre}
+        </h1>
+
+      <p className="text-2xl my-7 md:my-5 text-gray-600">
         Elige y personaliza tu pedido a continuación.
       </p>
 
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {productos.map(producto => (
           <Producto
             key={producto.imagen}

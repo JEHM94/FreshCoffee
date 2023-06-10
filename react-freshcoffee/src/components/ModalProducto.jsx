@@ -31,7 +31,7 @@ export default function ModalProducto() {
 
             <div className="md:w-1/3">
                 <img
-                    className="rounded-md w-60 m-auto md:w-full"
+                    className="rounded-md w-10/12 m-auto md:w-full"
                     src={`/img/${producto.imagen}.jpg`}
                     alt={`Imagen de ${producto.nombre}`}
                 />
