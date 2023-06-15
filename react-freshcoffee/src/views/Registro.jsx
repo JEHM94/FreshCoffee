@@ -1,13 +1,47 @@
+import { createRef, useState } from "react";
 import { Link } from "react-router-dom";
+import clienteAxios from '../config/axios'
+import Alerta from "../components/Alerta";
 
 export default function Registro() {
+
+    const nameRef = createRef();
+    const emailRef = createRef();
+    const passwordRef = createRef();
+    const passwordConfirmationRef = createRef();
+    const [errores, setErrores] = useState([]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const datos = {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            password_confirmation: passwordConfirmationRef.current.value
+        }
+
+        try {
+            const { data } = await clienteAxios.post('api/registro', datos)
+            console.log(data.token)
+        } catch (error) {
+            setErrores(Object.values(error.response.data.errors))
+        }
+    }
+
+
     return (
         <>
             <h1 className="text-4xl font-black mb-2">Crea tu Cuenta</h1>
             <p>Completa el siguiente formulario</p>
 
             <div className="bg-white shadow-md rounded-md mt-10 px-5 py-3">
-                <form action="#">
+                <form
+                    onSubmit={handleSubmit}
+                    noValidate
+                >
+                    {errores ? errores.map((error, i) => <Alerta key={i}>{error}</Alerta>) : null}
+
                     <div className="mb-4">
                         <label
                             htmlFor="name"
@@ -19,6 +53,7 @@ export default function Registro() {
                             type="text"
                             id="name"
                             name="name"
+                            ref={nameRef}
                             placeholder="Ingresa tu Nombre"
                             className="mt-2 w-full p-3 bg-gray-50 rounded-md"
                         />
@@ -35,6 +70,7 @@ export default function Registro() {
                             type="email"
                             id="email"
                             name="email"
+                            ref={emailRef}
                             placeholder="Ingresa tu Email"
                             className="mt-2 w-full p-3 bg-gray-50 rounded-md"
                         />
@@ -51,6 +87,7 @@ export default function Registro() {
                             type="password"
                             id="password"
                             name="password"
+                            ref={passwordRef}
                             placeholder="Ingresa tu Contraseña"
                             className="mt-2 w-full p-3 bg-gray-50 rounded-md"
                         />
@@ -67,6 +104,7 @@ export default function Registro() {
                             type="password"
                             id="password_confirmation"
                             name="password_confirmation"
+                            ref={passwordConfirmationRef}
                             placeholder="Repite tu Contraseña"
                             className="mt-2 w-full p-3 bg-gray-50 rounded-md"
                         />
