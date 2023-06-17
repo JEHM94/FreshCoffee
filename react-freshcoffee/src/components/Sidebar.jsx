@@ -1,19 +1,25 @@
 import useQuiosco from '../hooks/useQuiosco'
 import Categoria from '../components/Categoria'
+import { useAuth } from '../hooks/useAuth';
 
 import { slide as Menu } from 'react-burger-menu'
 
 export default function Sidebar() {
 
   const { categorias } = useQuiosco();
+  const { logout, user } = useAuth({ middleware: 'auth' })
 
   return (
     <>
 
-      <Menu className=''>
+      <Menu>
         <div className="p-4">
           <img src="img/logo.svg" alt="Imagen Logotipo" className="w-40 m-auto" />
         </div>
+
+        <p className='text-center mt-5 font-bold'>
+          Usuario: <span className='text-amber-600'>{user?.name}</span>
+        </p>
 
         <div className='mt-10'>
           {categorias.map(categoria => (
@@ -29,6 +35,7 @@ export default function Sidebar() {
           <button
             type='button'
             className='text-center bg-red-500 hover:bg-red-600 w-full p-3 font-bold text-white truncate rounded'
+            onClick={logout}
           >
             Cancelar Orden
           </button>
@@ -49,6 +56,7 @@ export default function Sidebar() {
             type='button'
             title='Cancelar Orden'
             className='flex justify-center bg-red-500 hover:bg-red-600 w-full p-3 font-bold text-white truncate rounded'
+            onClick={logout}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
