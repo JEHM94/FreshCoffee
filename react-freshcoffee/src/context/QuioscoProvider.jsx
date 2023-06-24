@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import clienteAxios from '../config/axios';
-
+import Swal from 'sweetalert2'
 
 const QuioscoContext = createContext();
 
@@ -72,6 +72,52 @@ const QuioscoProvider = ({ children }) => {
         toast.success('Producto Eliminado')
     }
 
+    const handleSubmitNuevaOrden = (logout) => {
+        Swal.fire({
+            title: '¿Está seguro que desea enviar el Pedido?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si, enviar!',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const token = localStorage.getItem('AUTH_TOKEN');
+
+                try {
+                    const { data } = await clienteAxios.post('/api/pedidos', {
+                        total,
+                        productos: pedido.map(producto => {
+                            return {
+                                id: producto.id,
+                                cantidad: producto.cantidad
+                            }
+                        })
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+
+                    toast.success(data.mensaje)
+
+                    setTimeout(() => {
+                        setPedido([])
+                    }, 1000);
+
+                    setTimeout(() => {
+                        logout()
+                    }, 3000);
+
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        })
+
+    }
+
     return (
         <QuioscoContext.Provider
             value={{
@@ -86,7 +132,8 @@ const QuioscoProvider = ({ children }) => {
                 handleAgregarPedido,
                 handleEditarCantidad,
                 handleEliminarProductoPedido,
-                total
+                total,
+                handleSubmitNuevaOrden
             }}
         >{children}</QuioscoContext.Provider>
     )
