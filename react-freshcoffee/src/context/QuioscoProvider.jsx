@@ -15,10 +15,16 @@ const QuioscoProvider = ({ children }) => {
     const [total, setTotal] = useState(0);
 
     const obtenerCategorias = async () => {
+        const token = localStorage.getItem('AUTH_TOKEN');
+
         try {
-            const { data } = await clienteAxios('/api/categorias');
+            const { data } = await clienteAxios('/api/categorias', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setCategorias(data.data)
-            setCategoriaActual(data.data[0])
+            setCategoriaActual(data.data[1])
         } catch (error) {
             console.log(error)
         }
@@ -118,6 +124,60 @@ const QuioscoProvider = ({ children }) => {
 
     }
 
+    const handleClickCompletarPedido = async id => {
+        Swal.fire({
+            title: `¿Está seguro que desea marcar el Pedido #${id} como completado?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si, Completar!',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const token = localStorage.getItem('AUTH_TOKEN')
+                try {
+                    const { data } = await clienteAxios.put(`/api/pedidos/${id}`, null, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+
+                    toast.success(data?.mensaje)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        })
+    }
+
+    const handleClickProductoAgotado = async (id, nombreProducto, disponible) => {
+        Swal.fire({
+            title: disponible ? `¿Está seguro que desea marcar "${nombreProducto}" como agotado?` : `¿Está seguro que desea marcar "${nombreProducto}" como disponible?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Si!',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const token = localStorage.getItem('AUTH_TOKEN')
+                try {
+                    const { data } = await clienteAxios.put(`/api/productos/${id}`, null, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+
+                    toast.success(data?.mensaje)
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        })
+    }
+
     return (
         <QuioscoContext.Provider
             value={{
@@ -133,7 +193,9 @@ const QuioscoProvider = ({ children }) => {
                 handleEditarCantidad,
                 handleEliminarProductoPedido,
                 total,
-                handleSubmitNuevaOrden
+                handleSubmitNuevaOrden,
+                handleClickCompletarPedido,
+                handleClickProductoAgotado
             }}
         >{children}</QuioscoContext.Provider>
     )

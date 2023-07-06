@@ -14,7 +14,8 @@ class ProductoController extends Controller
     public function index()
     {
         //
-        return new ProductoCollection(Producto::where('disponible', 1)->orderBy('id', 'DESC')->get());
+        //return new ProductoCollection(Producto::where('disponible', 1)->orderBy('id', 'DESC')->get());
+        return new ProductoCollection(Producto::orderBy('id', 'DESC')->get());
     }
 
     /**
@@ -39,6 +40,11 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto)
     {
         //
+        $producto->disponible = !$producto->disponible;
+        $producto->save();
+        return [
+            'mensaje' => 'Producto actualizado'
+        ];
     }
 
     /**

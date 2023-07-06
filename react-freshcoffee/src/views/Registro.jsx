@@ -28,8 +28,8 @@ export default function Registro() {
 
     return (
         <>
-            <h1 className="text-4xl font-black mb-2">Crea tu Cuenta</h1>
-            <p>Completa el siguiente formulario</p>
+            <h1 className="text-4xl font-black mb-2 text-center md:text-left">Crea tu Cuenta</h1>
+            <p className="text-center md:text-left">Completa el siguiente formulario</p>
 
             <div className="bg-white shadow-md rounded-md mt-10 px-5 py-3">
                 <form

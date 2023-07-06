@@ -26,8 +26,8 @@ export default function Login() {
 
   return (
     <>
-      <h1 className="text-4xl font-black mb-2">Iniciar Sesión</h1>
-      <p>Para crear un pedido debes iniciar sesión</p>
+      <h1 className="text-4xl font-black mb-2 text-center md:text-left">Iniciar Sesión</h1>
+      <p className="text-center md:text-left">Para crear un pedido debes iniciar sesión</p>
 
       <div className="bg-white shadow-md rounded-md mt-10 px-5 py-3">
         <form

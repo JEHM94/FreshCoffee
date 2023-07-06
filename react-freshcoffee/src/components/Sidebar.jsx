@@ -1,32 +1,33 @@
 import useQuiosco from '../hooks/useQuiosco'
 import Categoria from '../components/Categoria'
 import { useAuth } from '../hooks/useAuth';
-
 import { slide as Menu } from 'react-burger-menu'
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
 
   const { categorias } = useQuiosco();
   const { logout, user } = useAuth({ middleware: 'auth' })
+  const isAdmin = user?.admin
 
   return (
     <>
+      <Menu>  
+        <Link to={'/'}>
+          <img src="/img/logo.svg" alt="Imagen Logotipo" className="w-32 m-auto" />
+        </Link>
 
-      <Menu>
-        <div className="p-4">
-          <img src="img/logo.svg" alt="Imagen Logotipo" className="w-40 m-auto" />
-        </div>
-
-        <p className='text-center mt-5 font-bold'>
-          Usuario: <span className='text-amber-600'>{user?.name}</span>
+        <p className='text-center my-5 font-bold'>
+          Bienvenido: <span className='text-amber-600'>{user?.name}</span>
         </p>
 
-        <div className='mt-10'>
+        <div className='mt-7'>
           {categorias.map(categoria => (
             <Categoria
               key={categoria.id}
               categoria={categoria}
               isSidebar={true}
+              isAdmin={isAdmin}
             />
           ))}
         </div>
@@ -37,7 +38,7 @@ export default function Sidebar() {
             className='text-center bg-red-500 hover:bg-red-600 w-full p-3 font-bold text-white truncate rounded'
             onClick={logout}
           >
-            Cancelar Orden
+            {isAdmin ? 'Cerrar Sesión' : 'Cancelar Orden'}
           </button>
         </div>
       </Menu>
@@ -48,13 +49,14 @@ export default function Sidebar() {
             key={categoria.id}
             categoria={categoria}
             isSidebar={false}
+            isAdmin={isAdmin}
           />
         ))}
 
         <div className='my-5 pl-1'>
           <button
             type='button'
-            title='Cancelar Orden'
+            title={isAdmin ? 'Cerrar Sesión' : 'Cancelar Orden'}
             className='flex justify-center bg-red-500 hover:bg-red-600 w-full p-3 font-bold text-white truncate rounded'
             onClick={logout}
           >

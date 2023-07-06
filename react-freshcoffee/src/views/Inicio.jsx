@@ -7,15 +7,21 @@ export default function Inicio() {
 
   const { categoriaActual } = useQuiosco();
 
+  const token = localStorage.getItem('AUTH_TOKEN')
   // Consulta SWR
-  const fetcher = () => clienteAxios('/api/productos').then(data => data.data)
-  const { data, error, isLoading } = useSWR('/api/productos', fetcher, {
-    refreshInterval: 1000
-  })
+  const fetcher = () => clienteAxios('/api/productos', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(data => data.data)
+
+  const { data, error, isLoading } = useSWR('/api/productos', fetcher, { refreshInterval: 1000 })
 
   if (isLoading) return 'cargando...'
 
-  const productos = data.data.filter((producto) => producto.categoria_id === categoriaActual.id)
+  const productos = data?.data.filter((producto) => (
+    (producto.categoria_id === categoriaActual.id) && (producto.disponible === 1)
+  ))
 
   return (
     <>
@@ -28,10 +34,11 @@ export default function Inicio() {
       </p>
 
       <div className="grid gap-4 grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {productos.map(producto => (
+        {productos?.map(producto => (
           <Producto
             key={producto.imagen}
             producto={producto}
+            botonAgregar={true}
           />
         ))}
       </div>
