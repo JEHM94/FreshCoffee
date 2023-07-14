@@ -3,6 +3,7 @@ import useSWR from "swr"
 import clienteAxios from "../config/axios"
 import Producto from '../components/Producto'
 import useQuiosco from "../hooks/useQuiosco";
+import { DotSpinner } from '@uiball/loaders'
 
 export default function Productos() {
 
@@ -17,7 +18,15 @@ export default function Productos() {
 
   const { data, error, isLoading } = useSWR('/api/productos', fetcher, { refreshInterval: 2000 })
 
-  if (isLoading) return 'Cargando...'
+  if (isLoading) return (
+    <div className='h-full flex items-center justify-center'>
+      <DotSpinner
+        size={40}
+        speed={0.9}
+        color="orange"
+      />
+    </div>
+  )
 
   const productos = data?.data.filter((producto) => (
     producto.categoria_id === categoriaActual.id

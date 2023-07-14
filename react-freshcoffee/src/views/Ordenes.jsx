@@ -3,6 +3,7 @@ import useSWR from 'swr'
 import clienteAxios from '../config/axios'
 import { formatearDinero } from '../helpers'
 import useQuiosco from '../hooks/useQuiosco'
+import { DotSpinner } from '@uiball/loaders'
 
 export default function Ordenes() {
 
@@ -15,7 +16,15 @@ export default function Ordenes() {
   const { data, error, isLoading } = useSWR('/api/pedidos', fetcher, { refreshInterval: 2000 })
   const { handleClickCompletarPedido } = useQuiosco()
 
-  if (isLoading) return 'Cargando...'
+  if (isLoading) return (
+    <div className='h-full flex items-center justify-center'>
+      <DotSpinner
+        size={40}
+        speed={0.9}
+        color="orange"
+      />
+    </div>
+  )
 
   return (
     <div>
