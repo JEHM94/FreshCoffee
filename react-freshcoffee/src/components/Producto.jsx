@@ -41,7 +41,7 @@ export default function Producto({ producto, botonAgregar = false, botonDisponib
           <button
             type="button"
             onClick={() => handleClickProductoAgotado(producto.id, producto.nombre, disponible)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white w-full mt-5 p-3 uppercase font-bold rounded"
+            className={`${disponible ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-red-600 hover:bg-red-700'} text-white w-full mt-5 p-3 uppercase font-bold rounded`}
           >{disponible ? 'Producto Disponible' : 'Producto Agotado'}
           </button>
         )}
