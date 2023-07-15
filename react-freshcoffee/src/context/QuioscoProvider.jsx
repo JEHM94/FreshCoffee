@@ -13,10 +13,10 @@ const QuioscoProvider = ({ children }) => {
     const [producto, setProducto] = useState({});
     const [pedido, setPedido] = useState([]);
     const [total, setTotal] = useState(0);
+    
+    const token = localStorage.getItem('AUTH_TOKEN');
 
     const obtenerCategorias = async () => {
-        const token = localStorage.getItem('AUTH_TOKEN');
-
         try {
             const { data } = await clienteAxios('/api/categorias', {
                 headers: {
@@ -31,7 +31,7 @@ const QuioscoProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        obtenerCategorias();
+        if (token) obtenerCategorias()
     }, [])
 
 
@@ -89,7 +89,7 @@ const QuioscoProvider = ({ children }) => {
             cancelButtonText: 'Cancelar'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const token = localStorage.getItem('AUTH_TOKEN');
+
 
                 try {
                     const { data } = await clienteAxios.post('/api/pedidos', {
@@ -135,7 +135,7 @@ const QuioscoProvider = ({ children }) => {
             cancelButtonText: 'Cancelar'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const token = localStorage.getItem('AUTH_TOKEN')
+
                 try {
                     const { data } = await clienteAxios.put(`/api/pedidos/${id}`, null, {
                         headers: {
@@ -162,7 +162,6 @@ const QuioscoProvider = ({ children }) => {
             cancelButtonText: 'Cancelar'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const token = localStorage.getItem('AUTH_TOKEN')
                 try {
                     const { data } = await clienteAxios.put(`/api/productos/${id}`, null, {
                         headers: {
