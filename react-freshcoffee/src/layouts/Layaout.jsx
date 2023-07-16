@@ -45,7 +45,7 @@ export default function Layaout() {
                 <path d="M16.746 16.726a3 3 0 1 0 .252 -5.555" />
               </svg>
 
-              <img src="img/logo-mobile.png" alt="Imagen Logotipo" className="w-40" />
+              <img src="/img/logo-mobile.png" alt="Imagen Logotipo" className="w-40" />
 
             </div>
 
