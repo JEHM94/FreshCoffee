@@ -13,7 +13,7 @@ const QuioscoProvider = ({ children }) => {
     const [producto, setProducto] = useState({});
     const [pedido, setPedido] = useState([]);
     const [total, setTotal] = useState(0);
-    
+
     const token = localStorage.getItem('AUTH_TOKEN');
 
     const obtenerCategorias = async () => {
@@ -31,7 +31,7 @@ const QuioscoProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (token) obtenerCategorias()
+        obtenerCategorias()
     }, [])
 
 
