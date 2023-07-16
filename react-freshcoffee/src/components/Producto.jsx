@@ -10,11 +10,17 @@ export default function Producto({ producto, botonAgregar = false, botonDisponib
 
   return (
     <div className="border p-3 shadow bg-white">
-      <img
+      {/* <img
         src={`/img/${imagen}.jpg`}
         alt={`Imagen de ${nombre}`}
         className="w-full m-auto rounded-md"
-      />
+      /> */}
+      <div className="w-full m-auto rounded-md">
+        <picture >
+          <source srcSet={`/img/${imagen}.webp`} type="image/webp" />
+          <img src={`/img/${imagen}.jpg`} alt={`Imagen de ${nombre}`} loading="lazy" />
+        </picture>
+      </div>
 
       <div className="p-5">
         <h3 className="text-xl font-bold">
