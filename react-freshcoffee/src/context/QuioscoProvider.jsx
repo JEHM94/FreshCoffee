@@ -31,7 +31,7 @@ const QuioscoProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (token) obtenerCategorias()
+        obtenerCategorias()
     }, [])
 
 
